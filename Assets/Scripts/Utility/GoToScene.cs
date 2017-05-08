@@ -8,16 +8,6 @@ public class GoToScene : MonoBehaviour {
 	public string sceneName = "";
 	public int sceneId = 0;
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
-
 	public void GoTo (){
 		if (sceneName == "") {
 			SceneManager.LoadScene (sceneId);

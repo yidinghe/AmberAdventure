@@ -28,7 +28,7 @@ public class AudioFade : MonoBehaviour
 	void Update ()
 	{
 		if (au.isPlaying) {
-
+			
 			if (fadeIn && (au.time <= fadeInDuration + 0.1)) {
 				au.volume = fadeInVolume * (au.time / fadeInDuration);
 			}

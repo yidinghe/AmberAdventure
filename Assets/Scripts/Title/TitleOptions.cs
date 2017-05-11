@@ -50,6 +50,18 @@ public class TitleOptions : MonoBehaviour
 			}
 		}
 
+		CheckMobileSupport ();
+	}
+
+	void UpdatePosition ()
+	{
+		Vector3 pos = hand.position;
+		pos.y = buttons [id].position.y - 0.22f;
+		pos.x = xOffset [id];
+		hand.position = pos;
+	}
+
+	private void CheckMobileSupport(){
 		if (Input.GetButtonDown ("Fire1")) {   
 			Collider2D[] col = Physics2D.OverlapPointAll (Camera.main.ScreenToWorldPoint (Input.mousePosition));
 
@@ -67,17 +79,10 @@ public class TitleOptions : MonoBehaviour
 					} else if (c.name == "Load") {
 						Debug.Log ("Load Game");
 					}
-						
+
 				}
 			}
 		}
 	}
-
-	void UpdatePosition ()
-	{
-		Vector3 pos = hand.position;
-		pos.y = buttons [id].position.y - 0.22f;
-		pos.x = xOffset [id];
-		hand.position = pos;
-	}
+		
 }

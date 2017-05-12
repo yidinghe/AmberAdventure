@@ -77,32 +77,38 @@ public class Controller : MonoBehaviour
 
 	void OnCollisionStay2D (Collision2D col)
 	{
-		Debug.Log ("onCollisionStay2D" + col.collider.name);
 		isGround = true;
 	}
 
 	void OnCollisionExit2D (Collision2D col)
 	{
-		Debug.Log ("onCollistionExit2D" + col.collider.name);
 		isGround = false;
 	}
 
 
 	private void CheckMobileSupport ()
 	{
+		// TODO should reafactor Input.touchSupported out this function and use to determine whether mobile support 
+		if (Input.GetMouseButtonUp (0) || (Input.touchSupported &&(Input.GetTouch (0).phase == TouchPhase.Ended))) {
+			//handle the touch up, (Input.GetTouch (0).phase == TouchPhase.Ended) is much more reliable
+			Move (0);
+			return;
+		}
+	
+		// TODO work on the layers
+
 		Collider2D[] col = Physics2D.OverlapPointAll (Camera.main.ScreenToWorldPoint (Input.mousePosition));
 
 		if (col.Length > 0) {
 			foreach (Collider2D c in col) {
+
 				if (c.name == "arrowRight") {
 					OnKeyRight ();
 				} else if (c.name == "arrowLeft") {
 					OnKeyLeft ();
 				} else if (c.name == "arrowUp") {
 					OnKeyUp ();
-				} else {
-					Move (0);
-				}
+				} 
 			}
 
 		} else {
@@ -114,6 +120,7 @@ public class Controller : MonoBehaviour
 	{
 		Move (1);
 		Direction (0);
+
 	}
 
 	public void OnKeyLeft ()

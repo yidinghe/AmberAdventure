@@ -20,4 +20,4 @@ Latest version
 License
 ---
 
-Please do not use it for commercial side. Also, all the icons are got it from Kenny and Unity-Chan.
+Please do not use it for commercial side. Also, all the icons are got it from [Kenney](https://kenney.nl/assets) and [Unity-chan](http://unity-chan.com/contents/guideline_en/).

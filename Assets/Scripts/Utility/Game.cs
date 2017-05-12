@@ -4,6 +4,9 @@ using UnityEngine;
 
 public static class Game
 {
+
+	public static bool isTurnOnDebug = true;
+
 	public static ScreenUI Screen ()
 	{
 		return UnityEngine.Object.FindObjectOfType<ScreenUI> ();

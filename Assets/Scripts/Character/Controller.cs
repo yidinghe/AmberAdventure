@@ -88,8 +88,11 @@ public class Controller : MonoBehaviour
 
 	private void CheckMobileSupport ()
 	{
-		// TODO should reafactor Input.touchSupported out this function and use to determine whether mobile support 
-		if (Input.GetMouseButtonUp (0) || (Input.touchSupported &&(Input.GetTouch (0).phase == TouchPhase.Ended))) {
+		if (!Game.isTurnOnDebug && !Input.touchSupported) {
+			return;
+		}
+			
+		if (Input.GetMouseButtonUp (0) || (Input.touchSupported && Input.GetTouch (0).phase == TouchPhase.Ended)) {
 			//handle the touch up, (Input.GetTouch (0).phase == TouchPhase.Ended) is much more reliable
 			Move (0);
 			return;

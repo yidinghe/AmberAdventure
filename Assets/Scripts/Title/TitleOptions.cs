@@ -67,17 +67,13 @@ public class TitleOptions : MonoBehaviour
 
 			if (col.Length > 0) {
 				foreach (Collider2D c in col) {
-					Debug.Log ("Collider2D" + c.name);
 					world.sound.PlaySE (moveSound);
 					if (c.name == "Exit") {
-						Debug.Log ("Exit Game");
 						Application.Quit ();
 					} else if (c.name == "New") {
-						Debug.Log ("New Game");
 						Game.Screen ().FadeAndGo ("Map");
 						this.enabled = false;
 					} else if (c.name == "Load") {
-						Debug.Log ("Load Game");
 					}
 
 				}

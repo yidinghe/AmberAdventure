@@ -35,25 +35,25 @@ public class Controller : MonoBehaviour
 		if (Input.GetKey (KeyCode.RightArrow)) {
 			Move (1);
 			Direction (0);
-			return;
 		}
 		if (Input.GetKey (KeyCode.LeftArrow)) {
 			Move (-1);
 			Direction (1);
-			return;
 		}
 
-		if (Input.GetKey (KeyCode.Space)) {
+		if (Input.GetKeyDown (KeyCode.Space)) {
 			Jump ();
-			return;
 		}
 
 		if (upKey) {
 			Move (0);
-			return;
 		}
 
+
+
 		CheckMobileSupport ();
+
+		StateMachine ();
 
 	}
 
@@ -61,7 +61,9 @@ public class Controller : MonoBehaviour
 	{
 		if (!isGround)
 			return;
+		isGround = false;
 		body.velocity = new Vector2 (body.velocity.x, jumpHeight);
+		anim.SetTrigger ("Jump");
 	}
 
 	void Move (int i)
@@ -73,6 +75,11 @@ public class Controller : MonoBehaviour
 	void Direction (int i)
 	{
 		transform.eulerAngles = new Vector3 (0, 180f * i, 0);
+	}
+
+	public void StateMachine(){
+		anim.SetBool ("Ground", isGround);
+		anim.SetFloat ("Y", body.velocity.y);
 	}
 
 	void OnCollisionStay2D (Collision2D col)
@@ -92,7 +99,7 @@ public class Controller : MonoBehaviour
 			return;
 		}
 			
-		if (Input.GetMouseButtonUp (0) || (Input.touchSupported && Input.GetTouch (0).phase == TouchPhase.Ended)) {
+		if (Input.touchSupported && Input.GetTouch (0).phase == TouchPhase.Ended) {
 			//handle the touch up, (Input.GetTouch (0).phase == TouchPhase.Ended) is much more reliable
 			Move (0);
 			return;
@@ -109,11 +116,10 @@ public class Controller : MonoBehaviour
 					OnKeyRight ();
 				} else if (c.name == "arrowLeft") {
 					OnKeyLeft ();
-				} else if (c.name == "arrowUp") {
+				} else if (c.name == "arrowUp" && Input.touchSupported && Input.GetTouch (0).phase == TouchPhase.Began) {
 					OnKeyUp ();
 				} 
 			}
-
 		} else {
 			Move (0);
 		}
@@ -134,7 +140,7 @@ public class Controller : MonoBehaviour
 
 	public void OnKeyUp ()
 	{
-		if (Input.GetButtonDown ("Fire1")) {
+		if (Input.GetButtonDown ("Fire1")) { 
 			Jump ();
 		}
 	}

@@ -31,26 +31,7 @@ public class Controller : MonoBehaviour
 	void Update ()
 	{
 		
-		bool upKey = Input.GetKeyUp (KeyCode.RightArrow) || Input.GetKeyUp (KeyCode.LeftArrow);
-
-		if (Input.GetKey (KeyCode.RightArrow)) {
-			Move (1);
-			Direction (0);
-		}
-		if (Input.GetKey (KeyCode.LeftArrow)) {
-			Move (-1);
-			Direction (1);
-		}
-
-		if (Input.GetKeyDown (KeyCode.Space)) {
-			Jump ();
-		}
-
-		if (upKey) {
-			Move (0);
-		}
-
-
+		CheckPCControl ();
 
 		CheckMobileSupport ();
 
@@ -69,8 +50,6 @@ public class Controller : MonoBehaviour
 
 	void Move (int i)
 	{
-//		if (!isGround&&i==0)
-//			return;
 		body.velocity = new Vector2 (i * speed * Time.deltaTime, body.velocity.y);
 		anim.SetFloat ("Move", Mathf.Abs (i));
 	}
@@ -102,40 +81,72 @@ public class Controller : MonoBehaviour
 		}
 	}
 
+	private void CheckPCControl()
+	{
+
+		bool upKey = Input.GetKeyUp (KeyCode.RightArrow) || Input.GetKeyUp (KeyCode.LeftArrow);
+
+		if (Input.GetKey (KeyCode.RightArrow)) {
+			Move (1);
+			Direction (0);
+		}
+		if (Input.GetKey (KeyCode.LeftArrow)) {
+			Move (-1);
+			Direction (1);
+		}
+
+		if (Input.GetKeyDown (KeyCode.Space)) {
+			Jump ();
+		}
+
+		if (upKey) {
+			StopMoving ();
+		}
+	}
 
 	private void CheckMobileSupport ()
 	{
 		if (!Game.isTurnOnDebug && !Input.touchSupported) {
 			return;
 		}
-
-
-	
-		// TODO work on the layers
-
+			
 		Collider2D[] col = Physics2D.OverlapPointAll (Camera.main.ScreenToWorldPoint (Input.mousePosition));
 
 		if (col.Length > 0) {
 			foreach (Collider2D c in col) {
-
-				if (c.name == "arrowRight") {
-					if (Input.GetMouseButtonUp (0) || (Input.touchSupported && (Input.GetTouch (0).phase == TouchPhase.Ended))) {
-						Move (0); 
+				switch(c.name){
+				case "arrowRight":
+					if (IsTouchEnded()) {
+						StopMoving ();
 					} else {
 						OnKeyRight ();
 					}
-				} else if (c.name == "arrowLeft") {
-					if (Input.GetMouseButtonUp (0) || (Input.touchSupported && (Input.GetTouch (0).phase == TouchPhase.Ended))) {
-						Move (0); 
+					break;
+				case "arrowLeft":
+					if (IsTouchEnded()) {
+						StopMoving ();
 					} else {
 						OnKeyLeft ();
 					}
-				} else if (c.name == "arrowUp" && Input.GetButtonDown ("Fire1")) {
-					OnKeyUp ();
-				} 
+					break;
+				case "arrowUp": 
+					if (Input.GetButtonDown ("Fire1")) {
+						OnKeyUp ();
+					}
+					break;
+				}
 			}
 		} 
 	
+	}
+
+	private bool IsTouchEnded ()
+	{
+		return Input.GetMouseButtonUp (0) || (Input.touchSupported && (Input.GetTouch (0).phase == TouchPhase.Ended));
+	}
+
+	private void StopMoving(){
+		Move (0); 
 	}
 
 	public void OnKeyRight ()

@@ -11,6 +11,7 @@ public class Controller : MonoBehaviour
 	internal bool isGround = false;
 	internal Rigidbody2D body;
 	internal Animator anim;
+	internal bool isKeyLeftOrRightTouched = false;
 
 	void Awake ()
 	{
@@ -68,6 +69,8 @@ public class Controller : MonoBehaviour
 
 	void Move (int i)
 	{
+//		if (!isGround&&i==0)
+//			return;
 		body.velocity = new Vector2 (i * speed * Time.deltaTime, body.velocity.y);
 		anim.SetFloat ("Move", Mathf.Abs (i));
 	}
@@ -77,19 +80,26 @@ public class Controller : MonoBehaviour
 		transform.eulerAngles = new Vector3 (0, 180f * i, 0);
 	}
 
-	public void StateMachine(){
+	public void StateMachine ()
+	{
 		anim.SetBool ("Ground", isGround);
 		anim.SetFloat ("Y", body.velocity.y);
 	}
 
+
 	void OnCollisionStay2D (Collision2D col)
 	{
-		isGround = true;
+		if (col.collider.gameObject.layer == LayerMask.NameToLayer ("Ground")) {
+			isGround = true;
+		}
 	}
+
 
 	void OnCollisionExit2D (Collision2D col)
 	{
-		isGround = false;
+		if (col.collider.gameObject.layer == LayerMask.NameToLayer ("Ground")) {
+			isGround = false;
+		}
 	}
 
 
@@ -98,12 +108,8 @@ public class Controller : MonoBehaviour
 		if (!Game.isTurnOnDebug && !Input.touchSupported) {
 			return;
 		}
-			
-		if (Input.touchSupported && Input.GetTouch (0).phase == TouchPhase.Ended) {
-			//handle the touch up, (Input.GetTouch (0).phase == TouchPhase.Ended) is much more reliable
-			Move (0);
-			return;
-		}
+
+
 	
 		// TODO work on the layers
 
@@ -113,16 +119,23 @@ public class Controller : MonoBehaviour
 			foreach (Collider2D c in col) {
 
 				if (c.name == "arrowRight") {
-					OnKeyRight ();
+					if (Input.GetMouseButtonUp (0) || (Input.touchSupported && (Input.GetTouch (0).phase == TouchPhase.Ended))) {
+						Move (0); 
+					} else {
+						OnKeyRight ();
+					}
 				} else if (c.name == "arrowLeft") {
-					OnKeyLeft ();
-				} else if (c.name == "arrowUp" && Input.touchSupported && Input.GetTouch (0).phase == TouchPhase.Began) {
+					if (Input.GetMouseButtonUp (0) || (Input.touchSupported && (Input.GetTouch (0).phase == TouchPhase.Ended))) {
+						Move (0); 
+					} else {
+						OnKeyLeft ();
+					}
+				} else if (c.name == "arrowUp" && Input.GetButtonDown ("Fire1")) {
 					OnKeyUp ();
 				} 
 			}
-		} else {
-			Move (0);
-		}
+		} 
+	
 	}
 
 	public void OnKeyRight ()
@@ -140,9 +153,7 @@ public class Controller : MonoBehaviour
 
 	public void OnKeyUp ()
 	{
-		if (Input.GetButtonDown ("Fire1")) { 
-			Jump ();
-		}
+		Jump ();
 	}
 
 }

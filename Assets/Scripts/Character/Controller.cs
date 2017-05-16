@@ -7,7 +7,7 @@ public class Controller : MonoBehaviour
 {
 
 	public float speed = 200f;
-	public float jumpHeight = 9;
+	public float jumpHeight = 15;
 	internal bool isGround = false;
 	internal Rigidbody2D body;
 	internal Animator anim;

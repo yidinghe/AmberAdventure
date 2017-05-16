@@ -30,27 +30,7 @@ public class Controller : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
-		
-		bool upKey = Input.GetKeyUp (KeyCode.RightArrow) || Input.GetKeyUp (KeyCode.LeftArrow);
-
-		if (Input.GetKey (KeyCode.RightArrow)) {
-			Move (1);
-			Direction (0);
-		}
-		if (Input.GetKey (KeyCode.LeftArrow)) {
-			Move (-1);
-			Direction (1);
-		}
-
-		if (Input.GetKeyDown (KeyCode.Space)) {
-			Jump ();
-		}
-
-		if (upKey) {
-			Move (0);
-		}
-
-
+		Control ();
 
 		CheckMobileSupport ();
 
@@ -99,6 +79,27 @@ public class Controller : MonoBehaviour
 	{
 		if (col.collider.gameObject.layer == LayerMask.NameToLayer ("Ground")) {
 			isGround = false;
+		}
+	}
+
+	public virtual void  Control(){
+		bool upKey = Input.GetKeyUp (KeyCode.RightArrow) || Input.GetKeyUp (KeyCode.LeftArrow);
+
+		if (Input.GetKey (KeyCode.RightArrow)) {
+			Move (1);
+			Direction (0);
+		}
+		if (Input.GetKey (KeyCode.LeftArrow)) {
+			Move (-1);
+			Direction (1);
+		}
+
+		if (Input.GetKeyDown (KeyCode.Space)) {
+			Jump ();
+		}
+
+		if (upKey) {
+			Move (0);
 		}
 	}
 

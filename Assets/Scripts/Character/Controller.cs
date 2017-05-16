@@ -7,7 +7,7 @@ public class Controller : MonoBehaviour
 {
 
 	public float speed = 200f;
-	public float jumpHeight = 9;
+	public float jumpHeight = 15;
 	internal bool isGround = false;
 	internal Rigidbody2D body;
 	internal Animator anim;
@@ -30,8 +30,7 @@ public class Controller : MonoBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
-		
-		CheckPCControl ();
+		Control ();
 
 		CheckMobileSupport ();
 
@@ -80,10 +79,8 @@ public class Controller : MonoBehaviour
 			isGround = false;
 		}
 	}
-
-	private void CheckPCControl()
-	{
-
+		
+	public virtual void  Control(){
 		bool upKey = Input.GetKeyUp (KeyCode.RightArrow) || Input.GetKeyUp (KeyCode.LeftArrow);
 
 		if (Input.GetKey (KeyCode.RightArrow)) {
@@ -103,6 +100,7 @@ public class Controller : MonoBehaviour
 			StopMoving ();
 		}
 	}
+		
 
 	private void CheckMobileSupport ()
 	{

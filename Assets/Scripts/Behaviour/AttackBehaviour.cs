@@ -5,5 +5,6 @@ using UnityEngine;
 public class AttackBehaviour : StateMachineBehaviour {
 
 	void OnStateExit(Animator animator, AnimatorStateInfo animatorStateInfo, int layerIndex){
+		animator.SetInteger("Attack", 0) ;
 	}
 }

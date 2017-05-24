@@ -12,6 +12,7 @@ public class Controller : MonoBehaviour
 	internal Rigidbody2D body;
 	internal Animator anim;
 	internal bool isKeyLeftOrRightTouched = false;
+	internal AnimatorStateInfo state;
 
 	void Awake ()
 	{
@@ -47,13 +48,13 @@ public class Controller : MonoBehaviour
 		anim.SetTrigger ("Jump");
 	}
 
-	void Move (int i)
+	public virtual void Move (int i)
 	{
 		body.velocity = new Vector2 (i * speed * Time.deltaTime, body.velocity.y);
 		anim.SetFloat ("Move", Mathf.Abs (i));
 	}
 
-	void Direction (int i)
+	public virtual void Direction (int i)
 	{
 		transform.eulerAngles = new Vector3 (0, 180f * i, 0);
 	}
@@ -62,6 +63,7 @@ public class Controller : MonoBehaviour
 	{
 		anim.SetBool ("Ground", isGround);
 		anim.SetFloat ("Y", body.velocity.y);
+		state = anim.GetCurrentAnimatorStateInfo (0);
 	}
 
 

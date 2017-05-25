@@ -12,6 +12,11 @@ public class ControllerBattle : Controller
 			body.velocity = new Vector2 (0, body.velocity.y);
 			anim.SetInteger ("Attack", anim.GetInteger ("Attack") + 1);
 		}
+
+		if (Input.GetKeyDown (KeyCode.C)) {
+			body.velocity = new Vector2 (0, body.velocity.y);
+			anim.SetTrigger ("Skill");
+		}
 	}
 
 	public override void Move(int i){
@@ -21,10 +26,12 @@ public class ControllerBattle : Controller
 	
 		anim.SetFloat ("Move", Mathf.Abs (i));
 	}
-
-//	public override void Direction(int i){
-//	
-//	}
+		
+	public override void Direction(int i){
+//		if (CanMove ())
+//			return;
+		transform.eulerAngles = new Vector3 (0, 180f * i, 0);
+	}
 
 	bool CanMove(){
 		return !state.IsTag ("lock");

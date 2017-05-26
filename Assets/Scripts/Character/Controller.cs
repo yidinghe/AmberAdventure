@@ -13,6 +13,7 @@ public class Controller : MonoBehaviour
 	internal Animator anim;
 	internal bool isKeyLeftOrRightTouched = false;
 	internal AnimatorStateInfo state;
+	internal bool lockMove = false;
 
 	void Awake ()
 	{

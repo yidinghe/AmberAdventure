@@ -6,5 +6,6 @@ public class MovementBehaviour : StateMachineBehaviour {
 
 	void OnStateEnter(Animator animator, AnimatorStateInfo animatorStateInfo, int layerIndex){
 		animator.ResetTrigger ("Skill");
+		animator.GetComponentInParent<Controller>().lockMove = false ;
 	}
 }

@@ -130,11 +130,11 @@ public class Controller : MonoBehaviour
 						OnKeyLeft ();
 					}
 					break;
-				case "arrowUp": 
-					if (Input.GetButtonDown ("Fire1")) {
-						OnKeyUp ();
-					}
-					break;
+//				case "arrowUp": 
+//					if (Input.GetButtonDown ("Fire1")) {
+//						OnKeyUp ();
+//					}
+//					break;
 				}
 			}
 		} 

@@ -25,6 +25,7 @@ public class ControllerBattle : Controller
 			lockMove = true;
 			anim.SetBool ("Shot", true);
 		}
+
 		if (Input.GetKeyUp (KeyCode.X)) {
 			anim.SetBool ("Shot", false);
 		}

@@ -4,29 +4,28 @@ using UnityEngine;
 
 public class ControllerBattle : Controller
 {
+	internal bool isShotStart = false;
 
 	public override void Control ()
 	{
 		base.Control ();
 		if (Input.GetKeyDown (KeyCode.Z)) {
-			Move (0);
-			lockMove = true;
-			anim.SetInteger ("Attack", anim.GetInteger ("Attack") + 1);
+			OnKeyADown ();
 		}
 
 		if (Input.GetKeyDown (KeyCode.C)) {
-			Move (0);
-			lockMove = true;
-			anim.SetTrigger ("Skill");
+			OnKeyBDown ();
 		}
 
 		if (Input.GetKeyDown (KeyCode.X)) {
+			isShotStart = true;
 			Move (0);
 			lockMove = true;
 			anim.SetBool ("Shot", true);
 		}
 
 		if (Input.GetKeyUp (KeyCode.X)) {
+			isShotStart = false;
 			anim.SetBool ("Shot", false);
 		}
 	}
@@ -43,6 +42,30 @@ public class ControllerBattle : Controller
 //		if (lockMove)
 //			return;
 		transform.eulerAngles = new Vector3 (0, 180f * i, 0);
+	}
+
+	public void OnKeyADown(){
+		Move (0);
+		lockMove = true;
+		anim.SetInteger ("Attack", anim.GetInteger ("Attack") + 1);
+	}
+
+	public void OnKeyBDown(){
+		Move (0);
+		lockMove = true;
+		anim.SetTrigger ("Skill");
+	}
+
+	public void OnKeyXDown(){
+		if (isShotStart) {
+			anim.SetBool ("Shot", false);	
+		} else {
+			Move (0);
+			lockMove = true;
+			anim.SetBool ("Shot", true);
+		}
+
+		isShotStart = !isShotStart;
 	}
 		
 }

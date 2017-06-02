@@ -19,6 +19,7 @@ public class ControllerBattle : Controller
 
 		if (Input.GetKeyDown (KeyCode.X)) {
 			isShotStart = true;
+			body.velocity = new Vector2 (body.velocity.x, 0);
 			Move (0);
 			lockMove = true;
 			anim.SetBool ("Shot", true);

@@ -70,6 +70,9 @@ public class Controller : MonoBehaviour
 
 	void OnCollisionStay2D (Collision2D col)
 	{
+		if (col.contacts[0].normal != Vector2.up)
+			return;
+
 		if (col.collider.gameObject.layer == LayerMask.NameToLayer ("Ground")) {
 			isGround = true;
 		}

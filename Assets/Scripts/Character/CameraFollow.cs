@@ -4,13 +4,25 @@ using UnityEngine;
 
 public class CameraFollow : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-		
+	Transform player;
+	Collider bound;
+
+	void Awake(){
+		player = GameObject.FindWithTag ("Player").transform;
+		bound = GameObject.Find ("CamRange").GetComponent<Collider> ();
 	}
-	
-	// Update is called once per frame
-	void Update () {
+
+	void Update(){
 		
+		float offsetY = -transform.position.z/Mathf.Pow(3f,0.5f) ;
+		float offsetX = offsetY*((Screen.width+0f)/(Screen.height+0f)) ;
+		Vector3 min = bound.bounds.min ;
+		Vector3 max = bound.bounds.max ;
+
+		Vector3 pos = transform.position;
+		pos.x = Mathf.Clamp(player.position.x, min.x+offsetX, max.x-offsetX) ;
+		pos.y = Mathf.Clamp(player.position.y, min.y+offsetY, max.y-offsetY) ;
+		transform.position = pos ;
 	}
+
 }

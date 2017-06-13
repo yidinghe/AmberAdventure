@@ -5,7 +5,7 @@ using UnityEngine;
 public static class Game
 {
 	public static SaveData sav = new SaveData() ;
-	public static bool isTurnOnDebug = true;
+	public static bool isTurnOnDebug = false;
 
 	public static ScreenUI Screen ()
 	{
@@ -21,4 +21,8 @@ public class SaveData{
 	public float maxSp  = 500f;
 	public float sp = 500f ;
 	public int money = 0 ;
+
+	public void GainMoney(int i){
+		money = (int)Mathf.Clamp(money+i, 0, 999f) ;
+	}
 }

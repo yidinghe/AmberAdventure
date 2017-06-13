@@ -23,6 +23,7 @@ public class MainUI : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		DrawSP ();
+		DrawCoin() ;
 	}
 
 	void DrawMaxHP(){
@@ -52,6 +53,14 @@ public class MainUI : MonoBehaviour {
 	void DrawSP(){
 		float s = Game.sav.sp ;
 		sp.sizeDelta = new Vector2(Mathf.Lerp(sp.sizeDelta.x, s, 0.12f), sp.sizeDelta.y);
+	}
+
+	void DrawCoin(){
+// 		if(Game.sav.money > coin){
+//			coinText.GetComponentInParent<Animation>().Play() ;
+//		}
+//		coin = Game.sav.money ;
+		coinText.text = "x " + Game.sav.money ;
 	}
 
 }

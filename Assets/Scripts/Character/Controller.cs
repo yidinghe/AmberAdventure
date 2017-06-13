@@ -37,17 +37,21 @@ public class Controller : MonoBehaviour
 
 		//CheckMobileSupport ();
 
-		if (isMoveRightStart) {
-			OnKeyRight ();
+		if (!Game.isTurnOnDebug) {
+			if (isMoveRightStart) {
+				OnKeyRight ();
+			}
+
+			if (isMoveLeftStart) {
+				OnKeyLeft ();
+			}
+
+			if (!isMoveLeftStart && !isMoveRightStart) {
+				StopMoving ();
+			}
 		}
 
-		if (isMoveLeftStart) {
-			OnKeyLeft ();
-		}
 
-		if (!isMoveLeftStart && !isMoveRightStart) {
-			StopMoving ();
-		}
 
 		StateMachine ();
 

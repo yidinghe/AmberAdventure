@@ -8,6 +8,7 @@ public class MainUI : MonoBehaviour {
 	public Transform hearts ;
 	public Sprite[] heartImage ;
 	public RectTransform sp ;
+	public Text coinText ;
 
 	void Awake(){
 		DrawMaxHP() ;

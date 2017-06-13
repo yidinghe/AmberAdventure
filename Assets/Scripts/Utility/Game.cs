@@ -20,5 +20,5 @@ public class SaveData{
 	public float hp = 2.5f ;
 	public float maxSp  = 500f;
 	public float sp = 500f ;
-
+	public int money = 0 ;
 }

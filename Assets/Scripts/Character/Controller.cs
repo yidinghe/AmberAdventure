@@ -35,8 +35,14 @@ public class Controller : MonoBehaviour
 	{
 		Control ();
 
-		//CheckMobileSupport ();
+		CheckMobileSupport ();
 
+		StateMachine ();
+
+	}
+
+	private void CheckMobileSupport()
+	{
 		if (!Game.isTurnOnDebug) {
 			if (isMoveRightStart) {
 				OnKeyRight ();
@@ -50,11 +56,6 @@ public class Controller : MonoBehaviour
 				StopMoving ();
 			}
 		}
-
-
-
-		StateMachine ();
-
 	}
 
 	void Jump ()

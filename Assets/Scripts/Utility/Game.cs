@@ -23,6 +23,6 @@ public class SaveData{
 	public int money = 0 ;
 
 	public void GainMoney(int i){
-		money = (int)Mathf.Clamp(money+i, 0, 999f) ;
+		money = Mathf.Clamp(money+i, 0, 999) ;
 	}
 }

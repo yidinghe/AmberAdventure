@@ -7,11 +7,10 @@ public class CoinObject : MonoBehaviour
 
 	public int amount = 1;
 
-	void OnCollisionEnter2D (Collision2D co)
+	void OnCollisionEnter2D (Collision2D col)
 	{
-		Debug.Log ("OnTriggerEnter2D:"+co.collider.tag);
-		if (co.collider.tag != "Player") {
-
+		Debug.Log ("OnCollisionEnter2D:"+col.collider.tag);
+		if (col.collider.tag != "Player") {
 			return;
 		}
 		Game.sav.GainMoney (1);

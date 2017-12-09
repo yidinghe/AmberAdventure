@@ -14,14 +14,15 @@ public class Controller : MonoBehaviour
 	internal bool isKeyLeftOrRightTouched = false;
 	internal AnimatorStateInfo state;
 	internal bool lockMove = false;
+	internal bool isMoveRightStart = false;
+	internal bool isMoveLeftStart = false;
 
 	void Awake ()
 	{
 		body = GetComponent<Rigidbody2D> ();
 		anim = GetComponentInChildren<Animator> ();
 	}
-
-
+		
 
 	// Use this for initialization
 	void Start ()
@@ -34,7 +35,23 @@ public class Controller : MonoBehaviour
 	{
 		Control ();
 
-		CheckMobileSupport ();
+		//CheckMobileSupport ();
+
+		if (!Game.isTurnOnDebug) {
+			if (isMoveRightStart) {
+				OnKeyRight ();
+			}
+
+			if (isMoveLeftStart) {
+				OnKeyLeft ();
+			}
+
+			if (!isMoveLeftStart && !isMoveRightStart) {
+				StopMoving ();
+			}
+		}
+
+
 
 		StateMachine ();
 
@@ -70,6 +87,9 @@ public class Controller : MonoBehaviour
 
 	void OnCollisionStay2D (Collision2D col)
 	{
+		if (col.contacts[0].normal != Vector2.up)
+			return;
+
 		if (col.collider.gameObject.layer == LayerMask.NameToLayer ("Ground")) {
 			isGround = true;
 		}
@@ -105,42 +125,6 @@ public class Controller : MonoBehaviour
 	}
 		
 
-	private void CheckMobileSupport ()
-	{
-		if (!Game.isTurnOnDebug && !Input.touchSupported) {
-			return;
-		}
-			
-		Collider2D[] col = Physics2D.OverlapPointAll (Camera.main.ScreenToWorldPoint (Input.mousePosition));
-
-		if (col.Length > 0) {
-			foreach (Collider2D c in col) {
-				switch(c.name){
-				case "arrowRight":
-					if (IsTouchEnded()) {
-						StopMoving ();
-					} else {
-						OnKeyRight ();
-					}
-					break;
-				case "arrowLeft":
-					if (IsTouchEnded()) {
-						StopMoving ();
-					} else {
-						OnKeyLeft ();
-					}
-					break;
-//				case "arrowUp": 
-//					if (Input.GetButtonDown ("Fire1")) {
-//						OnKeyUp ();
-//					}
-//					break;
-				}
-			}
-		} 
-	
-	}
-
 	private bool IsTouchEnded ()
 	{
 		return Input.GetMouseButtonUp (0) || (Input.touchSupported && (Input.GetTouch (0).phase == TouchPhase.Ended));
@@ -150,18 +134,43 @@ public class Controller : MonoBehaviour
 		Move (0); 
 	}
 
+	public void OnKeyRightDown ()
+	{
+		if (isMoveRightStart || isMoveLeftStart) {
+			isMoveRightStart = false;
+			isMoveLeftStart = false;
+		} else {
+			isMoveRightStart = true;
+			isMoveLeftStart = false;
+		}
+
+	}
+
+	public void OnKeyLeftDown ()
+	{
+		if (isMoveRightStart || isMoveLeftStart) {
+			isMoveRightStart = false;
+			isMoveLeftStart = false;
+		} else {
+			isMoveLeftStart = true;
+			isMoveRightStart = false;
+		}
+
+	}
+
 	public void OnKeyRight ()
 	{
 		Move (1);
 		Direction (0);
-
 	}
+
 
 	public void OnKeyLeft ()
 	{
 		Move (-1);
 		Direction (1);
 	}
+
 
 	public void OnKeyUp ()
 	{
